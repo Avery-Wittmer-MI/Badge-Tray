@@ -1,0 +1,21 @@
+<!-- 'Implements' and 'access' statement necessary to get if of record page's 
+record / make the component available for all page types.-->
+<aura:component implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes" access="global">
+    
+    <!-- Store recordId (no need to explicitly initialize) and account record as aura attributes. -->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="acc_rec" type="Account"/>
+
+	<!-- Get record data, load into acc_rec, call loadBadges on load (with 'recordUpdated') -->    
+    <force:recordData aura:id="record"
+                      fields="Alumni_Account__c, Legacy_Society__c, Deceased__c, Staff__c, Momentum__c"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.acc_rec}"
+                      recordUpdated="{!c.loadBadges}"
+                      />
+    
+    <!-- Dynamically load an string of html into badge_tray, 
+	then turn the string into actual markup using unescapedHtml-->
+    <aura:attribute name="badge_tray" type="string"/>
+    <aura:unescapedHtml value="{!v.badge_tray}"/>
+</aura:component>
